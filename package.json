@@ -1,0 +1,36 @@
+{
+  "name": "elm-deps-sync",
+  "version": "1.0.0",
+  "description": "Sync elm-package.json between a parent and a sub",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests/functionality.spec.js --reporter spec --timeout 3000"
+  },
+  "keywords": [
+    "elm",
+    "cli"
+  ],
+  "author": {
+    "name": "Eduard Kyvenko",
+    "email": "eduard.kyvenko@gmail.com"
+  },
+  "bin": {
+    "elm-deps-sync": "./bin/elm-deps-sync-cli.js"
+  },
+  "files": [
+    "bin",
+    "index.js"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "extend": "^3.0.0",
+    "minimist": "^1.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^3.10.0",
+    "mocha": "^3.1.2",
+    "rimraf": "^2.5.4"
+  }
+}
