@@ -1,5 +1,7 @@
 ## elm-deps-sync
 
+[![Build Status](https://travis-ci.org/halfzebra/elm-deps-sync.svg?branch=master)](https://travis-ci.org/halfzebra/elm-deps-sync)
+
 Node.js port of [NoRedInk/elm-ops-tooling/elm_deps_sync](https://github.com/NoRedInk/elm-ops-tooling#elm_deps_sync)
 
 Sometimes we want to sync the deps between two files, such that all the deps in one file are matched in another file.
