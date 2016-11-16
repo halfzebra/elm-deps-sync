@@ -1,6 +1,6 @@
 ## elm-deps-sync
 
-[![Build Status](https://travis-ci.org/halfzebra/elm-deps-sync.svg?branch=master)](https://travis-ci.org/halfzebra/elm-deps-sync)
+[![npm version](https://badge.fury.io/js/elm-deps-sync.svg)](https://badge.fury.io/js/elm-deps-sync) [![Build Status](https://travis-ci.org/halfzebra/elm-deps-sync.svg?branch=master)](https://travis-ci.org/halfzebra/elm-deps-sync)
 
 Node.js port of [NoRedInk/elm-ops-tooling/elm_deps_sync](https://github.com/NoRedInk/elm-ops-tooling#elm_deps_sync)
 
