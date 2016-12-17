@@ -1,34 +1,33 @@
 #!/usr/bin/env node
 
-const argv = require('minimist')(process.argv.slice(2));
-const syncVersions = require('../index').syncVersions;
+const fs = require('fs');
 const chalk = require('chalk');
+const program = require('commander');
+const pkg = require('../package.json');
+const syncVersions = require('../index').syncVersions;
 
-if (argv._.length === 0) {
-    console.log('Sync elm-package.json between a parent and a sub');
-    console.log('');
-    console.log(chalk.bold('Usage:'));
-    console.log('    elm-deps-sync <parent> <sub>');
-    console.log('    elm-deps-sync <parent> <sub> [ --quiet --dry --note ]');
-    console.log('');
-    console.log(chalk.bold('Options:'));
-    console.log('    -d, --dry      only print the changes to happen');
-    console.log('    -q, --quiet    will only print the final statement');
-    console.log('    --note         add a `test-dependencies` field to the second file');
-    process.exit(0);
+program
+    .version(pkg.version)
+    .description('Sync elm-package.json between a parent and a sub')
+    .arguments('<parent> <sub>')
+    .option('-d, --dry', 'Only print the changes to happen')
+    .option('-q, --quiet', 'Will only print the final statement')
+    .option('--note', 'Add a `test-dependencies` field to the second file')
+    .parse(process.argv);
+
+var files = program.args.slice(0, 2);
+
+if (files.length === 0) {
+
+    var defaultFiles = [ './elm-package.json', './tests/elm-package.json' ];
+
+    if (fs.existsSync(defaultFiles[ 0 ]) && fs.existsSync(defaultFiles[ 1 ])) {
+        files = defaultFiles;
+    }
 }
 
-var files = argv._.slice(0, 2);
-
-// Flags.
-var flags = {
-    quiet: argv.quiet || argv.q,
-    dry: argv.dry || argv.d,
-    note: argv.note
-};
-
 if (files.length === 2) {
-    syncVersions(files[ 0 ], files[ 1 ], flags.quiet, flags.dry, flags.note);
+    syncVersions(files[ 0 ], files[ 1 ], program.quiet, program.dry, program.note);
 } else {
     console.log(chalk.yellow('Please specify <parent> file and <sub> file to sync dependencies.'));
     process.exit(1);

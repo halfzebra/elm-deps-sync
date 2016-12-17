@@ -106,6 +106,7 @@ function syncVersions(topLevelFilePath, specFilePath, quiet, dry, noteTestDeps) 
 }
 
 function addTestDeps(specOnlyDepNames, specDeps, specPkg) {
+
     var testDependencies = {};
 
     specOnlyDepNames.forEach(function (name) {
