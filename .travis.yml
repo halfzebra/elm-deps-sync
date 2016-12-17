@@ -1,13 +1,17 @@
 language: node_js
-node_js:
-  - 4
-  - 6
-
-install:
-  - npm install
-
-script: npm test
-
+cache:
+  directories:
+    - node_modules
 notifications:
-  email:
-    - eduard.kyvenko@gmail.com
+  email: false
+node_js:
+  - '7'
+  - '6'
+  - '4'
+before_script:
+  - npm prune
+after_success:
+  - npm run semantic-release
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
