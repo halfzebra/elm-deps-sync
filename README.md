@@ -12,6 +12,9 @@ Usage:
 - `--dry` will only print the changes to happen, not write them to file
 - `--quiet` will only print the final statement
 - `--note` will add a `test-dependencies` field to the second file. Useful for tooling
+- `--skip-missing` will skip dependencies not present in the second file and only update what is present in both
+- `--from` which type of dependency list to sync from: "devDependencies" or "dependencies". Default: "dependencies"
+- `--to` which type of dependency list to sync to: "devDependencies" or "dependencies". Default: "dependencies"
 
 ```bash
 elm-deps-sync elm-package.json spec/elm/elm-package.json
