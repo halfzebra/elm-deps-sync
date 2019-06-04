@@ -1,8 +1,7 @@
 const fs = require('fs');
 const extend = require('extend');
 
-function syncVersions(topLevelFilePath, specFilePath, quiet, dry, noteTestDeps) {
-
+function syncVersions(topLevelFilePath, specFilePath, quiet, dry, noteTestDeps, skipMissing, fromDepType, toDepType) {
     if (typeof quiet === 'undefined') {
         quiet = false;
     }
@@ -15,14 +14,22 @@ function syncVersions(topLevelFilePath, specFilePath, quiet, dry, noteTestDeps) 
         noteTestDeps = false;
     }
 
+    if (typeof fromDepType === 'undefined') {
+        fromDepType = 'dependencies';
+    }
+
+    if (typeof toDepType === 'undefined') {
+        toDepType = 'dependencies';
+    }
+
     var topLevelFileContent = fs.readFileSync(topLevelFilePath);
     var specFileContent = fs.readFileSync(specFilePath);
 
     var topLevelPkg = JSON.parse(topLevelFileContent);
     var specPkg = JSON.parse(specFileContent);
 
-    var topLevelDeps = topLevelPkg.dependencies;
-    var specDeps = specPkg.dependencies;
+    var topLevelDeps = topLevelPkg[fromDepType];
+    var specDeps = specPkg[toDepType];
 
     var topLevelDepNames = Object.keys(topLevelDeps).sort();
     var specDepNames = Object.keys(specDeps).sort();
@@ -41,14 +48,13 @@ function syncVersions(topLevelFilePath, specFilePath, quiet, dry, noteTestDeps) 
 
     var newSpecDepNames = [].concat(specDepNames, missingFromSpecNames).sort();
 
-    var newSpecPkg = extend({}, specPkg, { dependencies: {} });
+    var newSpecPkg = extend({}, specPkg, { [toDepType]: {} });
 
     var newSpecPkgDeps = {};
 
     newSpecDepNames.forEach(function (name) {
 
-        if (missingFromSpecNames.indexOf(name) !== -1) {
-
+        if (!skipMissing && missingFromSpecNames.indexOf(name) !== -1) {
             messages.push(
                 'Package `' + name + '` inserted to `' + specFilePath + '` for the first time at version "' +
                 topLevelDeps[ name ] + '"'
@@ -71,7 +77,7 @@ function syncVersions(topLevelFilePath, specFilePath, quiet, dry, noteTestDeps) 
         }
     });
 
-    newSpecPkg = extend({}, newSpecPkg, { dependencies: newSpecPkgDeps });
+    newSpecPkg = extend({}, newSpecPkg, { [toDepType]: newSpecPkgDeps });
 
     if (noteTestDeps === true && dry === false) {
 
